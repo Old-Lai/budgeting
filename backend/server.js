@@ -10,8 +10,8 @@ async function run() {
     try {
         const client = await pool.connect();
         console.log('Connected to the database');
-        await seed();
         client.release();
+        await seed();
 
         app.use(cors());
         app.use(express.json());
