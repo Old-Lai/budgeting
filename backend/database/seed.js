@@ -1,6 +1,7 @@
 const progressBar = require('../helper/progressBar')
 const bar = new progressBar('Seeding database');
 const pool = require('./client');
+const { users } = require('./helper');
 
 async function dropExistingTables() {
     try {
@@ -16,7 +17,7 @@ async function dropExistingTables() {
         bar.increment(25);
     } catch (error) {
         bar.stop('Error dropping tables', 'Failed!');
-        console.error(error)
+        console.error(error);
     }
 }
 
@@ -92,13 +93,12 @@ async function createTables() {
 async function insertData() {
     try {
         bar.updateMessage('Inserting data');
-        for (let i = 0; i < 25; i+=5) {
-            bar.increment(5);
-            await new Promise((resolve) => setTimeout(resolve, 50));
-        }
+        const user = await users.createUser('John', 'Doe', 'admin@admin.com', 'admin', 'admin');
+        console.log(user);
+        bar.increment(25);
     } catch (error) {
         bar.stop('Error inserting data', 'Failed!');
-        console.error(error)
+        console.error(error);
         
     }
 }
@@ -108,11 +108,11 @@ async function seed(){
         bar.start();
         await dropExistingTables();
         await createTables();
-        // await insertData();
+        await insertData();
         bar.stop();
     } catch (error) {
         bar.stop('Error seeding the database', 'Failed!');
-        console.error(error)
+        console.error(error);
     }
 }
 
