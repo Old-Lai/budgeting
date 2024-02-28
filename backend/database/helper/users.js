@@ -12,13 +12,55 @@ const users = {
                 const values = [firstname, lastname, email, username, password];
                 const { rows } = await pool.query(query, values);
                 const timezone = await pool.query('SELECT CURRENT_TIMESTAMP;');
-                console.log(timezone.rows[0]);
-                console.log(new Date());
                 return rows[0];
             } catch (error) {
                 console.error(error);
             }
         },
+    getUser:{
+        byEmail: 
+            async (email) => {
+                try {
+                    const query = `
+                        SELECT * FROM users
+                        WHERE email = $1;
+                    `;
+                    const values = [email];
+                    const { rows } = await pool.query(query, values);
+                    return rows[0];
+                } catch (error) {
+                    console.error(error);
+                }
+            },
+        byUsername: 
+            async (username) => {
+                try {
+                    const query = `
+                        SELECT * FROM users
+                        WHERE username = $1;
+                    `;
+                    const values = [username];
+                    const { rows } = await pool.query(query, values);
+                    return rows[0];
+                } catch (error) {
+                    console.error(error);
+                }
+            },
+        _byId:
+            async (id) => {
+                try {
+                    const query = `
+                        SELECT * FROM users
+                        WHERE id_user = $1;
+                    `;
+                    const values = [id];
+                    const { rows } = await pool.query(query, values);
+                    return rows[0];
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+    },
 };
 
 module.exports = users;
