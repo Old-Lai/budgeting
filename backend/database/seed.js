@@ -92,10 +92,12 @@ async function createTables() {
 
 async function insertData() {
     try {
+        let log = {};
         bar.updateMessage('Inserting data');
-        const user = await users.createUser('John', 'Doe', 'admin@admin.com', 'admin', 'admin');
-        console.log(user);
+        log.user = await users.createUser('John', 'Doe', 'demo@demo.demo', 'demo', 'demo123');
+        // console.log(user);
         bar.increment(25);
+        return log;
     } catch (error) {
         bar.stop('Error inserting data', 'Failed!');
         console.error(error);
@@ -105,11 +107,13 @@ async function insertData() {
 
 async function seed(){
     try {
+        let log;
         bar.start();
         await dropExistingTables();
         await createTables();
-        await insertData();
+        log = await insertData();
         bar.stop();
+        console.log(log);
     } catch (error) {
         bar.stop('Error seeding the database', 'Failed!');
         console.error(error);
