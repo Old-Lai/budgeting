@@ -1,8 +1,8 @@
 const pool = require('../client');
 
 const users = {
-    createUser: 
-        async (firstname, lastname, email, username, password) => {
+    create: 
+        async ({firstname, lastname, email, username, password}) => {
             try {
                 const query = `
                     INSERT INTO users (firstname, lastname, email, username, password)
@@ -17,7 +17,7 @@ const users = {
                 console.error(error);
             }
         },
-    getUser:{
+    get:{
         byEmail: 
             async (email) => {
                 try {
