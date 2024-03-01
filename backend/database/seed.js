@@ -1,7 +1,8 @@
 const progressBar = require('../helper/progressBar')
 const bar = new progressBar('Seeding database');
 const pool = require('./client');
-const { users } = require('./helper');
+const { users, accounts, balances } = require('./helper');
+const seedTest = require('./test/seedTest');
 
 async function dropExistingTables() {
     try {
@@ -90,28 +91,53 @@ async function createTables() {
     }
 }
 
-async function insertData() {
+async function insertData(log) {
     try {
-        let log = {};
         bar.updateMessage('Inserting data');
-        log.user = await users.createUser('John', 'Doe', 'demo@demo.demo', 'demo', 'demo123');
-        // console.log(user);
+        log.user = await users.create({
+            firstname: 'John', 
+            lastname: 'Doe', 
+            email: 'demo@demo.demo', 
+            username: 'demo', 
+            password: 'demo123'
+        });
+
+        log.account = [await accounts.create({
+            id_user: log.user.id_user, 
+            lastdigits: '1234', 
+            name: 'Demo Account 1'
+        })];
+
+        log.account.push(await accounts.create({
+            id_user: log.user.id_user, 
+            lastdigits: '4321', 
+            name: 'Demo Account 2'
+        }));
+
+        log.balance = await balances.create({
+            id_account: log.account[0].id_account, 
+            statement_start: '2021-01-01',
+            // statement_end: '2021-01-31', 
+            beginning_bal: 1000, 
+            ending_bal: 1500
+        });
+
         bar.increment(25);
-        return log;
+        // return log;
     } catch (error) {
         bar.stop('Error inserting data', 'Failed!');
         console.error(error);
-        
     }
 }
 
 async function seed(){
     try {
-        let log;
+        let log = {};
         bar.start();
         await dropExistingTables();
         await createTables();
-        log = await insertData();
+        await insertData(log);
+        await seedTest(log);
         bar.stop();
         console.log(log);
     } catch (error) {
