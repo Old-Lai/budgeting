@@ -18,7 +18,7 @@ async function dropExistingTables() {
         bar.increment(25);
     } catch (error) {
         bar.stop('Error dropping tables', 'Failed!');
-        console.error(error);
+        throw error;
     }
 }
 
@@ -87,7 +87,7 @@ async function createTables() {
         bar.increment(25);
     } catch (error) {
         bar.stop('Error creating tables', 'Failed!');
-        console.error(error)
+        throw error;
     }
 }
 
@@ -126,7 +126,7 @@ async function insertData(log) {
         // return log;
     } catch (error) {
         bar.stop('Error inserting data', 'Failed!');
-        console.error(error);
+        throw error;
     }
 }
 
@@ -143,7 +143,7 @@ async function seed(){
         console.log("seeding complete");
     } catch (error) {
         bar.stop('Error seeding the database', 'Failed!');
-        console.error(error);
+        throw error;
     } finally {
         await pool.end();
     }
