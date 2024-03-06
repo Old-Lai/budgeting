@@ -140,10 +140,15 @@ async function seed(){
         await seedTest(log);
         bar.stop();
         console.log(log);
+        console.log("seeding complete");
     } catch (error) {
         bar.stop('Error seeding the database', 'Failed!');
         console.error(error);
+    } finally {
+        await pool.end();
     }
 }
 
-module.exports = seed;
+if (require.main === module) {
+    seed();
+}

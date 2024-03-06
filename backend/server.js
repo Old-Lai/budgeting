@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./database/client');
-const seed = require('./database/seed');
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
@@ -11,7 +10,6 @@ async function run() {
         const client = await pool.connect();
         console.log('Connected to the database');
         client.release();
-        await seed();
 
         app.use(cors());
         app.use(express.json());
