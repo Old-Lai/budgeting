@@ -4,6 +4,7 @@ import {
   NotFound,
   Home,
   About,
+  Tables
 } from './pages'
 
 const router = createBrowserRouter([{
@@ -18,6 +19,9 @@ const router = createBrowserRouter([{
     {
       path: '/about',
       element: <About/>,
+    },
+    { path: '/tools',
+      element: <Tables/>,
     },
   ],
 }])
