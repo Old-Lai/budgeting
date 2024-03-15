@@ -2,8 +2,7 @@ const pool = require('../client');
 
 const accounts = {
     create: 
-        async ({id_user, lastdigits, name}) => {
-
+        async ({id_user, lastdigits, name="Default account"}) => {
             try {
                 const query = `
                     INSERT INTO accounts (id_user, lastdigits, name)
@@ -15,6 +14,7 @@ const accounts = {
                 return rows[0];
             } catch (error) {
                 console.error(error);
+                throw error;
             }
         },
     get: {

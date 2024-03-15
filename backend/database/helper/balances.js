@@ -11,7 +11,7 @@ function removeTime(rows){
 
 const balances = {
     create:
-        async ({id_account, statement_start, statement_end=undefined, beginning_bal, ending_bal}) => {
+        async ({id_account, statement_start = new Date(), statement_end=undefined, beginning_bal=0, ending_bal=0}) => {
             try {
                 const query = `
                     INSERT INTO balances (id_account, statement_start, statement_end, beginning_bal, ending_bal)

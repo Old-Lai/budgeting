@@ -4,6 +4,7 @@ const pool = require('./database/client');
 const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
+const { userRouter } = require('./routes');
 
 async function run() {
     try {
@@ -13,6 +14,8 @@ async function run() {
 
         app.use(cors());
         app.use(express.json());
+
+        app.use('/api/user', userRouter);
 
         app.use((err, req, res, next) => {
             res.status(500).send({

@@ -1,7 +1,7 @@
 const progressBar = require('../helper/progressBar')
 const bar = new progressBar('Seeding database');
 const pool = require('./client');
-const { users, accounts, balances } = require('./helper');
+const { users, accounts, balances, tables } = require('./helper');
 const seedTest = require('./test/seedTest');
 
 async function dropExistingTables() {
@@ -61,7 +61,7 @@ async function createTables() {
                 id_user UUID REFERENCES users(id_user),
                 id_account UUID REFERENCES accounts(id_account),
                 id_balance UUID REFERENCES balances(id_balance),
-                name VARCHAR(255) DEFAULT 'Untitled Table' NOT NULL,
+                name VARCHAR(255) NOT NULL,
                 enabled BOOLEAN DEFAULT TRUE
             );
 
@@ -122,6 +122,10 @@ async function insertData(log) {
             ending_bal: 1500
         });
 
+        log.table = await tables.createTable({
+            id_user: log.user.id_user,
+        })
+
         bar.increment(25);
         // return log;
     } catch (error) {
@@ -133,12 +137,12 @@ async function insertData(log) {
 async function seed(){
     try {
         let log = {};
-        bar.start();
+        // bar.start();
         await dropExistingTables();
         await createTables();
         await insertData(log);
         await seedTest(log);
-        bar.stop();
+        // bar.stop();
         console.log(log);
         console.log("seeding complete");
     } catch (error) {
