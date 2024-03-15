@@ -6,10 +6,10 @@ import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@mui/material';
 
 export default function SignIn() {
-    console.log(import.meta.env.VITE_ENCRYPTION_KEY);
-    const test = CryptoJS.AES.encrypt("{test: 'test'}", import.meta.env.VITE_ENCRYPTION_KEY).toString();
-    console.log("encrypted", test);
-    console.log("decrypted", CryptoJS.AES.decrypt(test, import.meta.env.VITE_ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8));
+    // console.log(import.meta.env.VITE_ENCRYPTION_KEY);
+    // const test = CryptoJS.AES.encrypt("{test: 'test'}", import.meta.env.VITE_ENCRYPTION_KEY).toString();
+    // console.log("encrypted", test);
+    // console.log("decrypted", CryptoJS.AES.decrypt(test, import.meta.env.VITE_ENCRYPTION_KEY).toString(CryptoJS.enc.Utf8));
     return (
         <Box
             sx={{
